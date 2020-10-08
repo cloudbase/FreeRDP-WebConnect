@@ -607,3 +607,4 @@ endif()
 add_executable(wsgate ${WSGATE_SOURCES})
 
 target_link_libraries(wsgate ${LIBS})
+install(TARGETS wsgate DESTINATION bin)

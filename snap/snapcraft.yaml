@@ -1,0 +1,87 @@
+name: wsgate
+version: "1.2.0.444"
+summary: FreeRDP WebConnect
+description: A HTML5 gateway to FreeRDP
+architectures:
+  - amd64
+confinement: strict
+base: core18
+apps:
+  wsgate:
+    command: usr/bin/wsgate
+    plugs:
+      - network
+      - network-bind
+grade: stable
+parts:
+  ehs:
+    plugin: cmake
+    source: https://github.com/cloudbase/EHS.git
+    source-type: git
+    configflags:
+      - "-DCMAKE_INSTALL_PREFIX=/usr"
+    build-packages:
+      - cmake
+      - g++
+      - pkg-config
+      - zlib1g-dev
+      - libssl-dev
+      - libboost-dev
+      - libboost-filesystem-dev
+      - libboost-program-options-dev
+      - libboost-system-dev
+      - libboost-regex-dev
+  wsgate:
+    plugin: cmake
+    after: [ehs]
+    source-subdir: wsgate
+    source: .
+    #source-type: git
+    configflags:
+      - "-DCMAKE_INSTALL_PREFIX=/usr"
+    build-packages:
+      - pkg-config
+      - libfreerdp-dev
+      - libcpprest-dev
+      - libpng-dev
+    stage-packages:
+      - libboost-filesystem1.65.1
+      - libboost-program-options1.65.1
+      - libboost-regex1.65.1
+      - libboost-system1.65.1
+      - libcpprest2.10
+      - libfreerdp-cache1.1
+      - libfreerdp-codec1.1
+      - libfreerdp-common1.1.0
+      - libfreerdp-core1.1
+      - libfreerdp-crypto1.1
+      - libfreerdp-gdi1.1
+      - libfreerdp-locale1.1
+      - libfreerdp-primitives1.1
+      - libfreerdp-utils1.1
+      - libicu60
+      - libjpeg-turbo8
+      - libwinpr-crt0.1
+      - libwinpr-dsparse0.1
+      - libwinpr-environment0.1
+      - libwinpr-file0.1
+      - libwinpr-handle0.1
+      - libwinpr-heap0.1
+      - libwinpr-input0.1
+      - libwinpr-interlocked0.1
+      - libwinpr-library0.1
+      - libwinpr-path0.1
+      - libwinpr-pool0.1
+      - libwinpr-registry0.1
+      - libwinpr-rpc0.1
+      - libwinpr-sspi0.1
+      - libwinpr-synch0.1
+      - libwinpr-sysinfo0.1
+      - libwinpr-thread0.1
+      - libwinpr-utils0.1
+      - libx11-6
+      - libxau6
+      - libxcb1
+      - libxdmcp6
+      - libxkbfile1
+

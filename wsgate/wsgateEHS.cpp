@@ -537,7 +537,15 @@ namespace wsgate{
         if (HTML == mt) {
             ostringstream oss;
 
-            oss << (request->Secure() ? "wss://" : "ws://") << thisHost << "/wsgate";
+            if (request->Secure() || request->Headers("X-Forwarded-Proto") == "https")
+            {
+                oss << "wss://";
+            }
+            else
+            {
+                oss << "ws://";
+            }
+            oss << thisHost << "/wsgate";
 
             replace_all(body, "%WSURI%", oss.str());
             replace_all(body, "%JSDEBUG%", (bDynDebug ? "-debug" : ""));
